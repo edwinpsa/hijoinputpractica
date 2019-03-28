@@ -1,0 +1,63 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<dom-module id="ids-practicauno">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!--salida del metodo-->
+    <h1 on-ids-practicauno="save"></h1>
+    <h1 on-ids-practicauno="cansel"></h1>
+    <paper-input type="text" pattern="^[A-z\s]{1,10}" auto-validate label="Nombre"
+      error-message="Este campo es requerido" value="{{nombre}}"> </paper-input>
+
+    <paper-button raised on-click="save">Guardar</paper-button>
+    <paper-button raised on-click="cancel">cancelar</paper-button>
+  </template>
+
+  <script>
+    /**
+     * `ids-practicauno`
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class IdsPracticauno extends Polymer.Element {
+      static get is() {
+        return 'ids-practicauno';
+      }
+      static get properties() {
+        return {
+          nombre: {
+            type: String,
+            notify: true,
+            reflectToAttribute: true
+          }
+        };
+      }
+
+      save() {
+        console.log("save");
+        this.dispatchEvent(new CustomEvent('event-custom-event', {
+          detail: this.nombre,
+          bubbles: true,
+          composed: true
+        }));
+      }
+      cansel(){
+        const newevent = new CustomEvent('evento-cancelar',{
+          bubbles: true,
+          composed: true,
+          detail: 'evento cancelar' 
+        });
+        this.dispatchEvent(newevent)
+      }
+
+    }
+
+    window.customElements.define(IdsPracticauno.is, IdsPracticauno);
+  </script>
+</dom-module>
